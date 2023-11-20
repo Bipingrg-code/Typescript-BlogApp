@@ -1,7 +1,9 @@
-export default function App() {
+const App: React.FC = () => {
+  console.log(import.meta.env.VITE_APPWRITE_URL);
+
   return (
-    <h1 className="text-3xl font-bold underline">
-      Hello world!
-    </h1>
+    <div className="font-sans text-2xl">App</div>
   )
 }
+
+export default App
