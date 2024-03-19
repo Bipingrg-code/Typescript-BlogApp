@@ -1,8 +1,6 @@
-const App: React.FC = () => {
-  console.log(import.meta.env.VITE_APPWRITE_URL);
-
+const App = () => {
   return (
-    <div className="font-sans text-2xl">App</div>
+    <div className="underline text-2xl">App</div>
   )
 }
 
