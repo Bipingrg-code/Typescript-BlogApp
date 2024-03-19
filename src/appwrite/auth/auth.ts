@@ -1,16 +1,26 @@
-import conf from "../conf/conf";
+import config from "../../config/api/config";
 
 import { Client, Account, ID } from "appwrite";
+
+
+interface accountType{
+  email: string,
+  password: string,
+  name: string,
+  id:string | boolean,
+}
 
 export class AuthService {
   client = new Client();
   account;
   constructor() {
-    this.client.setEndpoint(conf.appwriteUrl);
-    this.client.setProject(conf.appwriteProjectId);
+    this.client
+      .setEndpoint(config.appwriteUrl)
+      .setProject(config.appwriteProjectId);
     this.account = new Account(this.client);
   }
-  async createAccount({ email, password, name }: any) {
+  //   account create method
+  async createAccount({ email, password, name }:accountType) {
     try {
       const userAccount = await this.account.create(
         ID.unique(),
@@ -19,8 +29,8 @@ export class AuthService {
         name
       );
       if (userAccount) {
-        //call another account
-        return this.login({ email, password });
+        // call login method if userExits
+        return this.login({ email, password } as accountType);
       } else {
         return userAccount;
       }
@@ -28,13 +38,16 @@ export class AuthService {
       throw error;
     }
   }
-  async login({ email, password }: any) {
+  //   login method
+  async login({ email, password }:accountType) {
     try {
       return await this.account.createEmailSession(email, password);
     } catch (error) {
       throw error;
     }
   }
+
+  //   get current user methods
   async getCurrentUser() {
     try {
       return await this.account.get();
@@ -43,9 +56,12 @@ export class AuthService {
     }
     return null;
   }
-  async logout({}) {
+
+  //   logout methods
+
+  async logout() {
     try {
-      return await this.account.deleteSessions();
+        await this.account.deleteSessions()
     } catch (error) {
       throw error;
     }
