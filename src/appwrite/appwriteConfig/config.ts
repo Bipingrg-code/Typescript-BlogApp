@@ -107,7 +107,7 @@ export class DatabaseService {
   }
 
   // fileUpload
-  async uploadFile(file:string){
+  async uploadFile(file:any){
     try {
       return await this.bucket.createFile(config.appwriteBucketId,ID.unique(),file)
     } catch (error) {
